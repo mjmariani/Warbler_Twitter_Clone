@@ -91,6 +91,7 @@ def signup():
 
         return redirect("/")
 
+
     else:
         return render_template('users/signup.html', form=form)
 
@@ -155,7 +156,7 @@ def users_show(user_id):
     # user.messages won't be in order by default
     messages = (Message
                 .query
-                .filter(Message.user_id == user.following.id)
+                .filter(Message.user_id == user_id)
                 .order_by(Message.timestamp.desc())
                 .limit(100)
                 )
@@ -234,7 +235,7 @@ def profile():
         if User.authenticate(user.username, form.password.data):
             user.username = form.username.data
             user.email = form.email.data
-            user.email = form.email.data
+            ##user.email = form.email.data
             user.image_url = form.image_url.data or "/static/images/default-pic.png"
             user.header_image_url = form.header_image_url.data or "/static/images/warbler-hero.jpg"
             user.bio = form.bio.data
@@ -324,8 +325,12 @@ def homepage():
     """
 
     if g.user:
+        user = g.user
+        following_ids = [f.id for f in user.following] + [user.id]
+        
         messages = (Message
                     .query
+                    .filter(Message.user_id.in_(following_ids))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
