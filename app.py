@@ -10,6 +10,7 @@ from models import db, connect_db, User, Message
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+app.debug = True
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
@@ -42,7 +43,8 @@ def add_user_to_g():
 
 def do_login(user):
     """Log in user."""
-
+    import pdb; pdb.set_trace()
+    
     session[CURR_USER_KEY] = user.id
 
 
@@ -51,6 +53,13 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+        
+        flash("You are logged successfully!", category='message')
+        redirect("/login")
+
+    else:
+        flash("You are not logged in! Please log in or create an account!", category='error')
+
 
 
 @app.route('/signup', methods=["GET", "POST"])

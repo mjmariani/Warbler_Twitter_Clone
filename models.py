@@ -93,7 +93,7 @@ class User(db.Model):
         db.Text,
         nullable=False,
     )
-
+    ## Used for referential integrity
     messages = db.relationship('Message')
 
     followers = db.relationship(
@@ -197,7 +197,9 @@ class Message(db.Model):
         nullable=False,
     )
 
-    user = db.relationship('User')
+    
+    ## Used for referential integrity
+    user = db.relationship('User') 
 
 
 def connect_db(app):
