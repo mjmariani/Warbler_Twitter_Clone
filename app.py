@@ -117,14 +117,10 @@ def login():
 def logout():
     """Handle logout of user."""
 
-    # IMPLEMENT THIS
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
-        flash("You are logged successfully!", category='message')
-        redirect("/login")
+    do_logout()
 
-    else:
-        flash("You are not logged in! Please log in or create an account!", category='error')
+    flash("You have successfully logged out.", 'success')
+    return redirect("/login")
 
 
 ##############################################################################
@@ -223,6 +219,8 @@ def profile():
     """Update profile for current user."""
 
     # IMPLEMENT THIS
+    
+    user.profile.
 
 
 @app.route('/users/delete', methods=["POST"])
