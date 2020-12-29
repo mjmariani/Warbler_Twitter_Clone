@@ -43,7 +43,7 @@ def add_user_to_g():
 
 def do_login(user):
     """Log in user."""
-    import pdb; pdb.set_trace()
+    ###import pdb; pdb.set_trace()
     
     session[CURR_USER_KEY] = user.id
 
@@ -69,6 +69,8 @@ def signup():
     and re-present form.
     """
 
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
     form = UserAddForm()
 
     if form.validate_on_submit():
@@ -153,10 +155,11 @@ def users_show(user_id):
     # user.messages won't be in order by default
     messages = (Message
                 .query
-                .filter(Message.user_id == user_id)
+                .filter(Message.user_id == user.following.id)
                 .order_by(Message.timestamp.desc())
                 .limit(100)
-                .all())
+                )
+                
     return render_template('users/show.html', user=user, messages=messages)
 
 
