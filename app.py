@@ -54,12 +54,7 @@ def do_logout():
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
         
-        flash("You are logged successfully!", category='message')
-        redirect("/login")
-
-    else:
-        flash("You are not logged in! Please log in or create an account!", category='error')
-
+        
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -123,6 +118,13 @@ def logout():
     """Handle logout of user."""
 
     # IMPLEMENT THIS
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+        flash("You are logged successfully!", category='message')
+        redirect("/login")
+
+    else:
+        flash("You are not logged in! Please log in or create an account!", category='error')
 
 
 ##############################################################################
